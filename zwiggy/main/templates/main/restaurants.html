@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2 class="text-3xl font-bold text-orange-500 mb-8 text-center">Restaurants Near You</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  {% for r in restaurants %}
+    <div class="bg-white p-4 rounded-lg shadow">
+      {% if r.image %}
+        <img src="{{ r.image.url }}" class="w-full h-40 object-cover rounded" alt="{{ r.name }}">
+      {% else %}
+        <img src="{% static 'main/images/placeholder.png' %}" class="w-full h-40 object-cover rounded" alt="{{ r.name }}">
+      {% endif %}
+      <h3 class="mt-3 font-semibold">{{ r.name }}</h3>
+      <p class="text-sm text-gray-500">{{ r.cuisine }} • ⭐ {{ r.rating }} • {{ r.delivery_time }}</p>
+    </div>
+  {% empty %}
+    <p class="text-gray-500 col-span-3 text-center">No restaurants found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto mt-10 bg-white shadow p-6 rounded-lg">
+  <h2 class="text-2xl font-bold mb-4 text-center text-orange-500">Create an Account</h2>
+  {% if error %}
+  <p class="text-red-500 text-center">{{ error }}</p>
+  {% endif %}
+  <form method="POST">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username" class="w-full border p-2 mb-3 rounded">
+    <input type="email" name="email" placeholder="Email" class="w-full border p-2 mb-3 rounded">
+    <input type="password" name="password" placeholder="Password" class="w-full border p-2 mb-3 rounded">
+    <button class="bg-orange-500 text-white w-full py-2 rounded hover:bg-orange-600">Signup</button>
+  </form>
+  <p class="text-sm text-center mt-3">Already have an account? <a href="/login/" class="text-orange-500">Login</a></p>
+</div>
+{% endblock %}
