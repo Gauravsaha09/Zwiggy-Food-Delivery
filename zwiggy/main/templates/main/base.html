@@ -1,47 +1,60 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <title>Zwiggy | Your Favorite Food, Delivered</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <title>Zwiggy — Order Food</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind (CDN quick) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+  <style>
+    body { font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#fafafa; }
+    .card { border-radius: 14px; box-shadow: 0 8px 24px rgba(16,24,40,0.06); transition: transform .18s ease; }
+    .card:hover { transform: translateY(-6px); }
+    .btn-accent { background: linear-gradient(90deg,#ff7043,#ff5722); color:white; padding:.5rem 1rem; border-radius:.6rem; }
+    .cart-badge { background:#ef4444; color:white; border-radius:999px; padding:.12rem .5rem; font-weight:700; font-size:.85rem; }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="{% url 'home' %}" class="flex items-center gap-3">
+        <img src="{% static 'main/images/placeholder.png' %}" alt="logo" class="w-10 h-10 rounded-full object-cover">
+        <span class="text-2xl font-bold text-orange-500">Zwiggy</span>
+      </a>
 
-    <!-- Navbar -->
+      <div class="flex items-center gap-6">
+        <a href="{% url 'restaurants' %}" class="text-gray-700 hover:text-orange-500">Restaurants</a>
+        {% if user.is_authenticated %}
+          <span class="text-gray-600">Hi, {{ user.username }}</span>
+          <a href="{% url 'logout' %}" class="text-gray-700 hover:text-orange-500">Logout</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="text-gray-700 hover:text-orange-500">Login</a>
+          <a href="{% url 'signup' %}" class="text-gray-700 hover:text-orange-500">Signup</a>
+        {% endif %}
 
-<nav class="bg-white shadow-md">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-orange-500">Zwiggy</h1>
-    <div class="space-x-4">
-      <a href="/" class="text-gray-700 hover:text-orange-500">Home</a>
-      <a href="/restaurants/" class="text-gray-700 hover:text-orange-500">Restaurants</a>
-
-      {% if user.is_authenticated %}
-        <span class="text-gray-700">Hi, {{ user.username }}</span>
-        <a href="/logout/" class="text-gray-700 hover:text-orange-500">Logout</a>
-      {% else %}
-        <a href="/login/" class="text-gray-700 hover:text-orange-500">Login</a>
-        <a href="/signup/" class="text-gray-700 hover:text-orange-500">Signup</a>
-      {% endif %}
+        <a href="{% url 'view_cart' %}" class="relative inline-flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m12-9l2 9M9 21h6" />
+          </svg>
+          <span class="cart-badge ml-2">{{ cart_count|default:0 }}</span>
+        </a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 py-10">
-        {% block content %}{% endblock %}
-    </main>
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    {% block content %}{% endblock %}
+  </main>
 
-    <!-- Footer -->
-    <footer class="bg-white shadow-inner py-4 text-center text-gray-500">
-        © 2025 Zwiggy | All Rights Reserved 🍔
-    </footer>
+  <footer class="text-center py-6 text-sm text-gray-500">
+    © {{ now.year }} Zwiggy — Built with ❤️
+  </footer>
 </body>
 </html>
